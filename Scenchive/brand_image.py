@@ -1,17 +1,11 @@
-import mysql.connector
 import requests
 from bs4 import BeautifulSoup
 
-# MySQL 서버와 연결 -> !! 깃헙 push 전 암호화 필수 !!
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="0128",
-  database="scenchive"
-)
+import db_info # 모듈 import
+
 
 # 쿼리 실행
-mycursor = mydb.cursor()
+mycursor = db_info.mydb.cursor()
 mycursor.execute("SELECT brand_name FROM brand")
 result = mycursor.fetchall() # fetchall: 모든 검색 결과를 가져옴
 result = [list(result[x]) for x in range(len(result))] # tuple -> list
@@ -35,6 +29,6 @@ for i in result:
 
     get_brand_url()
 
-mydb.commit() # 데이터 변경 결과 db에 반영
+db_info.mydb.commit() # 데이터 변경 결과 db에 반영
 
   
