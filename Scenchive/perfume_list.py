@@ -10,15 +10,10 @@ mycursor.execute("SELECT * FROM brand")
 result = mycursor.fetchall() # fetchall: 모든 검색 결과를 가져옴
 result = [list(result[x]) for x in range(len(result))] # tuple -> list
 
-# mycursor.execute("SELECT brand_name FROM brand")
-# result2 = mycursor.fetchall() 
-# result2 = [list(result2[x]) for x in range(len(result2))] 
-
 for i in result:
     brand_id = i[0]
     brand_url = i[2]
     print(brand_url)
-    # brand_name = i[0].replace(" ", "+") # basenotes의 url 형식에 적합한 형태로 변환
 
     def get_perfumelist():
         perfumelist_url = None
