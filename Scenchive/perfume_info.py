@@ -81,8 +81,8 @@ for i in result:
                                 top_notes.append(note.string.strip())
                                 sql = "INSERT INTO perfumescent (perfume_id, note_id, scent) VALUES (%s, %s, %s)"
                                 val = (j, 1, note.string.strip())
-                                print(val)
-                                # mycursor.execute(sql, val)
+                                # print(val)
+                                mycursor.execute(sql, val)
 
                     elif h3.string.strip() == 'Middle Notes' or h3.string.strip() == 'Heart Notes': # middle(heart) 노트 스크래핑
                         ul = h3.find_next_sibling('ul')
@@ -92,8 +92,8 @@ for i in result:
                                 middle_notes.append(note.string.strip())
                                 sql = "INSERT INTO perfumescent (perfume_id, note_id, scent) VALUES (%s, %s, %s)"
                                 val = (j, 2, note.string.strip())
-                                print(val)
-                                # mycursor.execute(sql, val)
+                                # print(val)
+                                mycursor.execute(sql, val)
 
                     elif h3.string.strip() == 'Base Notes': # base 노트 스크래핑
                         ul = h3.find_next_sibling('ul')
@@ -103,8 +103,8 @@ for i in result:
                                 base_notes.append(note.string.strip())
                                 sql = "INSERT INTO perfumescent (perfume_id, note_id, scent) VALUES (%s, %s, %s)"
                                 val = (j, 3, note.string.strip())
-                                print(val)
-                                # mycursor.execute(sql, val)
+                                # print(val)
+                                mycursor.execute(sql, val)
 
                             j += 1
 
@@ -112,8 +112,8 @@ for i in result:
                     for a in ol_tag.find_all('a'):
                         top_notes.append(a.string.strip())
                         val = (j, 1, a.string.strip())
-                        print(val)
-                        # mycursor.execute(sql, val)
+                        # print(val)
+                        mycursor.execute(sql, val)
                     j += 1
 
             else:
@@ -130,4 +130,4 @@ for i in result:
             get_perfumeinfo(perfume_urls)
 
 
-# db_info.mydb.commit()
+db_info.mydb.commit()
