@@ -1,17 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
-import db_info # 모듈 import
+import db_info
+import googletrans
 
 
 # 쿼리 실행
 mycursor = db_info.mydb.cursor()
-mycursor.execute("SELECT brand_url FROM brand")
+mycursor.execute("SELECT brand_url FROM brand WHERE id = 1")
 result = mycursor.fetchall() # fetchall: 모든 brand_url 검색 결과를 가져옴
 result = [list(result[x]) for x in range(len(result))] # tuple -> list
 
-# mycursor.execute("SELECT perfume_id FROM perfume")
-# result2 = mycursor.fetchall()
-# result2 = [list(result2[m]) for m in range(len(result2))]
+# 번역 객체 생성
+translator = googletrans.Translator()
 
 j = 1
 
@@ -58,7 +58,7 @@ for i in result:
 
         for url in perfume_urls:
 
-            url = "https://basenotes.com/" + url
+            url = "https://basenotes.com" + url
             print(url)
             html = requests.get(url).text
             soup = BeautifulSoup(html, "html5lib")
@@ -78,9 +78,11 @@ for i in result:
                         if ul:
                             for note in h3.find_next_sibling('ul').find_all('a'):
                                 # print(note.text)
-                                top_notes.append(note.string.strip())
-                                sql = "INSERT INTO perfumescent (perfume_id, note_id, scent) VALUES (%s, %s, %s)"
-                                val = (j, 1, note.string.strip())
+                                top_note = note.string.strip()
+                                top_note_kr = translator.translate(top_note, dest='ko').text
+                                top_notes.append(top_note)
+                                sql = "INSERT INTO perfumescent (perfume_id, note_id, scent, scent_kr) VALUES (%s, %s, %s, %s)"
+                                val = (j, 1, top_note, top_note_kr)
                                 # print(val)
                                 mycursor.execute(sql, val)
 
@@ -89,9 +91,11 @@ for i in result:
                         if ul:
                             for note in h3.find_next_sibling('ul').find_all('a'):
                                 # print(note.text)
-                                middle_notes.append(note.string.strip())
-                                sql = "INSERT INTO perfumescent (perfume_id, note_id, scent) VALUES (%s, %s, %s)"
-                                val = (j, 2, note.string.strip())
+                                middle_note = note.string.strip()
+                                middle_note_kr = translator.translate(middle_note, dest='ko').text
+                                middle_notes.append(middle_note)
+                                sql = "INSERT INTO perfumescent (perfume_id, note_id, scent, scent_kr) VALUES (%s, %s, %s, %s)"
+                                val = (j, 2, middle_note, middle_note_kr)
                                 # print(val)
                                 mycursor.execute(sql, val)
 
@@ -100,9 +104,11 @@ for i in result:
                         if ul:
                             for note in h3.find_next_sibling('ul').find_all('a'):
                                 # print(note.text)
-                                base_notes.append(note.string.strip())
-                                sql = "INSERT INTO perfumescent (perfume_id, note_id, scent) VALUES (%s, %s, %s)"
-                                val = (j, 3, note.string.strip())
+                                base_note = note.string.strip()
+                                base_note_kr = translator.translate(base_note, dest='ko').text
+                                base_notes.append(base_note)
+                                sql = "INSERT INTO perfumescent (perfume_id, note_id, scent, scent_kr) VALUES (%s, %s, %s, %s)"
+                                val = (j, 3, base_note, base_note_kr)
                                 # print(val)
                                 mycursor.execute(sql, val)
 
@@ -110,8 +116,11 @@ for i in result:
 
                 if not h3_exists: # h3 태그가 없는 경우
                     for a in ol_tag.find_all('a'):
-                        top_notes.append(a.string.strip())
-                        val = (j, 1, a.string.strip())
+                        top_note = a.string.strip()
+                        top_note_kr = translator.translate(top_note, dest='ko').text
+                        top_notes.append(top_note)
+                        sql = "INSERT INTO perfumescent (perfume_id, note_id, scent, scent_kr) VALUES (%s, %s, %s, %s)"
+                        val = (j, 1, top_note, top_note_kr)
                         # print(val)
                         mycursor.execute(sql, val)
                     j += 1
