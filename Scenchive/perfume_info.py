@@ -6,14 +6,14 @@ import googletrans
 
 # 쿼리 실행
 mycursor = db_info.mydb.cursor()
-mycursor.execute("SELECT brand_url FROM brand WHERE id >= 31 && id <= 59")
+mycursor.execute("SELECT brand_url FROM brand WHERE id >= 291 && id <= 297")
 result = mycursor.fetchall() # fetchall: 모든 brand_url 검색 결과를 가져옴
 result = [list(result[x]) for x in range(len(result))] # tuple -> list
 
 # 번역 객체 생성
 translator = googletrans.Translator()
 
-j = 766
+j = 7909
 
 for i in result:
     brand_url = i[0]
@@ -25,7 +25,7 @@ for i in result:
         perfume_urls = [] # 추가한 코드
 
         # 1) perfume list 페이지 접근
-        brandpage_url = "https://basenotes.com/" + brand_url
+        brandpage_url = "https://basenotes.com" + brand_url
         html = requests.get(brandpage_url).text
         soup = BeautifulSoup(html, "html5lib")
         a_tag = soup.find("a", {"class": "otherperfumes"})
