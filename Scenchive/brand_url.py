@@ -35,6 +35,6 @@ for i in result:
 
     get_brand_url()
 
-mydb.commit() # 데이터 변경 결과 db에 반영
+# mydb.commit() # 데이터 변경 결과 db에 반영
 
   
