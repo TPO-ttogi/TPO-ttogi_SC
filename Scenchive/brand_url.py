@@ -4,10 +4,10 @@ from bs4 import BeautifulSoup
 
 # MySQL 서버와 연결 -> !! 깃헙 push 전 암호화 필수 !!
 mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="0128",
-  database="scenchive"
+  host="*****",
+  user="*****",
+  password="*****",
+  database="*****"
 )
 
 # 쿼리 실행
@@ -35,6 +35,6 @@ for i in result:
 
     get_brand_url()
 
-mydb.commit() # 데이터 변경 결과 db에 반영
+# mydb.commit() # 데이터 변경 결과 db에 반영
 
   
