@@ -7,10 +7,10 @@ from bs4 import BeautifulSoup
 
 # MySQL 서버와 연결
 mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="0128",
-  database="scenchive"
+  host="*****",
+  user="*****",
+  password="*****",
+  database="*****"
 )
 
 # 쿼리 실행
@@ -25,7 +25,7 @@ brand_name = mycursor.fetchall() # fetchall: 모든 검색 결과를 가져옴
 brand_name_list = [list(brand_name[x]) for x in range(len(brand_name))] # tuple -> list
 
 
-# HTML 내 브랜드 이미지 위치 추출
+# HTML 내 브랜드 이미지 URL 추출
 def get_brand_img_path(brand_url):
     url = "https://basenotes.com" + brand_url
     print(url)
@@ -37,10 +37,8 @@ def get_brand_img_path(brand_url):
 
 # S3 버킷에 스크래핑 이미지 업로드
 def upload_image_from_url(url, bucket_name, object_name):
-    # 이미지 다운로드
-    response = requests.get(url)
-    image_data = response.content
-    
+    response = requests.get(url) # URL로부터 이미지 다운로드
+    image_data = response.content    
     s3 = boto3.client('s3')
     s3.put_object(Body=image_data, Bucket=bucket_name, Key=object_name)
 
@@ -48,7 +46,6 @@ def upload_image_from_url(url, bucket_name, object_name):
 # S3 버킷에 로컬 이미지 업로드
 def upload_local_image_to_s3(local_image_path, bucket_name, object_name):
     s3 = boto3.client('s3')
-
     with open(local_image_path, 'rb') as image_file:
         s3.upload_fileobj(image_file, bucket_name, object_name)
 
